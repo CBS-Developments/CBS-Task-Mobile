@@ -92,7 +92,7 @@ class MainDashBoardState extends State<MainDashBoard> {
       final responseJson = json.decode(res.body);
       setState(() {
         for (Map details in responseJson) {
-          mainTaskList.add(MainTask.fromJson(details));
+          mainTaskList.add(MainTask.fromJson(details['']));
         }
       });
     } else {
@@ -359,51 +359,6 @@ class MainDashBoardState extends State<MainDashBoard> {
                   padding: EdgeInsets.all(padding),
                   child: Column(
                     children: [
-                      // Expanded(
-                      //   flex: 1,
-                      //   child: SizedBox(
-                      //     height: MediaQuery.of(context).size.height,
-                      //     width: MediaQuery.of(context).size.width,
-                      //     child: Row(
-                      //       children: [
-                      //         // Expanded(
-                      //         //   flex: 5,
-                      //         //   child: Container(
-                      //         //     height: MediaQuery.of(context).size.height,
-                      //         //     width: MediaQuery.of(context).size.width,
-                      //         //     color: Colors.white,
-                      //         //     child: Align(
-                      //         //       alignment: Alignment.centerLeft,
-                      //         //       child: SelectableText(
-                      //         //         task[index - 1].taskId,
-                      //         //         style: TextStyle(
-                      //         //             fontSize: textFontNormal,
-                      //         //             fontWeight: FontWeight.bold),
-                      //         //       ),
-                      //         //     ),
-                      //         //   ),
-                      //         // ),
-                      //         // Expanded(
-                      //         //   flex: 3,
-                      //         //   child: Container(
-                      //         //     height: MediaQuery.of(context).size.height,
-                      //         //     width: MediaQuery.of(context).size.width,
-                      //         //     color: Colors.white,
-                      //         //     child: Align(
-                      //         //       alignment: Alignment.centerRight,
-                      //         //       child: SelectableText(
-                      //         //         task[index - 1].taskStatusName,
-                      //         //         style: TextStyle(
-                      //         //             fontSize: textFontNormal,
-                      //         //             fontWeight: FontWeight.bold),
-                      //         //       ),
-                      //         //     ),
-                      //         //   ),
-                      //         // ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
                       Expanded(
                         flex: 1,
                         child: Row(
@@ -693,32 +648,63 @@ class MainDashBoardState extends State<MainDashBoard> {
     double paddingCard = (sizeHeight * 0.0005) * (sizeWidth * 0.0004);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
 
+    // return WillPopScope(
+    //   onWillPop: () {
+    //     return showDialog(
+    //         context: context,
+    //         barrierDismissible: false,
+    //         builder: (BuildContext context) {
+    //           return AlertDialog(
+    //             title: const Text("Confirm Exit"),
+    //             content: const Text("Are you sure you want to exit?"),
+    //             actions: <Widget>[
+    //               MaterialButton(
+    //                 child: const Text("YES"),
+    //                 onPressed: () {
+    //                   SystemNavigator.pop();
+    //                 },
+    //               ),
+    //               MaterialButton(
+    //                 child: const Text("NO"),
+    //                 onPressed: () {
+    //                   Navigator.of(context).pop();
+    //                 },
+    //               )
+    //             ],
+    //           );
+    //         });
+    //   },
+
     return WillPopScope(
-      onWillPop: () {
-        return showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text("Confirm Exit"),
-                content: const Text("Are you sure you want to exit?"),
-                actions: <Widget>[
-                  MaterialButton(
-                    child: const Text("YES"),
-                    onPressed: () {
-                      SystemNavigator.pop();
-                    },
-                  ),
-                  MaterialButton(
-                    child: const Text("NO"),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  )
-                ],
-              );
-            });
+      onWillPop: () async {
+        bool exit = await showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Confirm Exit"),
+              content: Text("Are you sure you want to exit?"),
+              actions: <Widget>[
+                TextButton(
+                  child: Text("YES"),
+                  onPressed: () {
+                    Navigator.of(context).pop(true); // Pop with result "true"
+                  },
+                ),
+                TextButton(
+                  child: Text("NO"),
+                  onPressed: () {
+                    Navigator.of(context).pop(false); // Pop with result "false"
+                  },
+                ),
+              ],
+            );
+          },
+        );
+
+        return exit ?? false; // If exit is null, treat it as false
       },
+
       child: AnnotatedRegion<SystemUiOverlayStyle>(
         value: const SystemUiOverlayStyle(
           statusBarColor: Colors.deepPurple,
@@ -760,7 +746,7 @@ class MainDashBoardState extends State<MainDashBoard> {
                 color: Colors.white,
                 tooltip: 'Log',
                 onPressed: () async {
-                  saveRefrance("login_state", null);
+                  saveRefrance("login_state", 'null');
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) {
@@ -777,7 +763,7 @@ class MainDashBoardState extends State<MainDashBoard> {
                 color: Colors.white,
                 tooltip: 'Log-Out',
                 onPressed: () async {
-                  saveRefrance("login_state", null);
+                  saveRefrance("login_state", 'null');
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) {

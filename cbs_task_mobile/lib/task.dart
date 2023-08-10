@@ -486,36 +486,47 @@ var items3 = [
   'UP Weerasinghe Properties Pvt. Ltd'
 ];
 String dropdownvalue3 = 'Company';
-DateTime selectedDate;
-selectDate(
+
+DateTime selectedDate = DateTime.now(); // Initialize selectedDate with a default value
+
+Future<void> selectDate(
     BuildContext context, TextEditingController textEditingController) async {
   DateTime? newSelectedDate = await showDatePicker(
-      context: context,
-      initialDate: selectedDate ?? DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2040),
-      builder: (BuildContext context, Widget child) {
-        return Theme(
-          data: ThemeData.dark().copyWith(
-            colorScheme:  ColorScheme.dark(
-              primary: Colors.black,
-              onPrimary: Colors.white,
-              surface: Colors.blueGrey,
-              onSurface: Colors.white,
-            ),
-            dialogBackgroundColor: Colors.blue[500],
+    context: context,
+    initialDate: selectedDate,
+    firstDate: DateTime(2000),
+    lastDate: DateTime(2040),
+    builder: (BuildContext context, Widget? child) {
+      return Theme(
+        data: ThemeData.dark().copyWith(
+          colorScheme: ColorScheme.dark(
+            primary: Colors.black,
+            onPrimary: Colors.white,
+            surface: Colors.blueGrey,
+            onSurface: Colors.white,
           ),
-          child: child,
-        );
-      });
+          dialogBackgroundColor: Colors.blue[500]!,
+        ),
+        child: child!,
+      );
+    },
+  );
 
   if (newSelectedDate != null) {
-    selectedDate = newSelectedDate;
-    textEditingController
-      ..text = DateFormat.yMMMd().format(selectedDate)
-      ..selection = TextSelection.fromPosition(TextPosition(
-          offset: textEditingController.text.length,
-          affinity: TextAffinity.upstream));
+    setState(() {
+      selectedDate = newSelectedDate;
+      textEditingController
+        ..text = DateFormat.yMMMd().format(selectedDate)
+        ..selection = TextSelection.fromPosition(
+          TextPosition(
+            offset: textEditingController.text.length,
+            affinity: TextAffinity.upstream,
+          ),
+        );
+    });
   }
+}
+
+void setState(Null Function() param0) {
 }
 

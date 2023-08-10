@@ -11,7 +11,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TaskLog extends StatefulWidget {
-  const TaskLog({Key? key}) : super(key: key);
+  const TaskLog({ Key? key}) : super(key: key);
 
   @override
   TaskLogState createState() => TaskLogState();
@@ -406,16 +406,18 @@ class TaskLogState extends State<TaskLog> {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
 
     return WillPopScope(
-      onWillPop: () {
-      return  Navigator.push(
+      onWillPop: () async {
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return const MainDashBoard();
+              return const MainDashBoard(); // Navigates to MainDashBoard and replaces the current screen
             },
           ),
         );
+        return false; // Prevents the default back action
       },
+
       child: AnnotatedRegion<SystemUiOverlayStyle>(
         value: const SystemUiOverlayStyle(
           statusBarColor: Colors.black,
@@ -470,7 +472,7 @@ class TaskLogState extends State<TaskLog> {
                     child: SingleChildScrollView(
                       child: Column(children: [
                         FutureBuilder<List<taskLog>>(
-                          future: getTaskLogList(),
+                          // future: getTaskLogList(context),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               List<taskLog>? data = snapshot.data;

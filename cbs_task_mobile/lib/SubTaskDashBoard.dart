@@ -513,7 +513,7 @@ class SubTaskDashBoardState extends State<SubTaskDashBoard> {
       //   print(res.body);
       setState(() {
         for (Map details in responseJson) {
-          subTaskList.add(Task.fromJson(details));
+          subTaskList.add(Task.fromJson(details['']));
         }
       });
     } else {
@@ -611,9 +611,21 @@ class SubTaskDashBoardState extends State<SubTaskDashBoard> {
     double paddingCard = (sizeHeight * 0.0005) * (sizeWidth * 0.0004);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
 
+    // return WillPopScope(
+    //   onWillPop: () {
+    //     return Navigator.push(
+    //       context,
+    //       MaterialPageRoute(
+    //         builder: (context) {
+    //           return const MainDashBoard();
+    //         },
+    //       ),
+    //     );
+    //   },
+
     return WillPopScope(
-      onWillPop: () {
-        return Navigator.push(
+      onWillPop: () async {
+        Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
@@ -621,7 +633,9 @@ class SubTaskDashBoardState extends State<SubTaskDashBoard> {
             },
           ),
         );
+        return false; // Prevent the back action for now
       },
+
       child: AnnotatedRegion<SystemUiOverlayStyle>(
         value: const SystemUiOverlayStyle(
           statusBarColor: Colors.blue,

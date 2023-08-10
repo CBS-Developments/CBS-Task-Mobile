@@ -154,47 +154,55 @@ class ViewSubTaskState extends State<ViewSubTask> {
     }
     return true;
   }
-
   _selectDate(BuildContext context) async {
     DateTime? newSelectedDate = await showDatePicker(
-        context: context,
-        initialDate: _selectedDate ?? DateTime.now(),
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2040),
-        builder: (BuildContext context, Widget child) {
-          return Theme(
-            data: ThemeData.dark().copyWith(
-              colorScheme: const ColorScheme.dark(
-                primary: Colors.black,
-                onPrimary: Colors.white,
-                surface: Colors.blueGrey,
-                onSurface: Colors.white,
-              ),
-              dialogBackgroundColor: Colors.blue[500],
+      context: context,
+      initialDate: _selectedDate ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2040),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.dark().copyWith(
+            colorScheme: const ColorScheme.dark(
+              primary: Colors.black,
+              onPrimary: Colors.white,
+              surface: Colors.blueGrey,
+              onSurface: Colors.white,
             ),
-            child: child,
-          );
-        });
+            dialogBackgroundColor: Colors.blue[500]!,
+          ),
+          child: child!,
+        );
+      },
+    );
 
     if (newSelectedDate != null) {
-      _selectedDate = newSelectedDate;
-      _textEditingController
-        ..text = DateFormat.yMMMd().format(_selectedDate)
-        ..selection = TextSelection.fromPosition(TextPosition(
-            offset: _textEditingController.text.length,
-            affinity: TextAffinity.upstream));
-    }
-  }
-
-  Future<void> displayTimeDialog() async {
-    final TimeOfDay? time =
-    await showTimePicker(context: context, initialTime: TimeOfDay.now());
-    if (time != null) {
       setState(() {
-        selectedTime = time.format(context);
+        _selectedDate = newSelectedDate;
+        _textEditingController.text = DateFormat.yMMMd().format(_selectedDate!);
+        _textEditingController.selection = TextSelection.fromPosition(
+          TextPosition(
+            offset: _textEditingController.text.length,
+            affinity: TextAffinity.upstream,
+          ),
+        );
       });
     }
   }
+
+  Future<void> _displayTimeDialog(BuildContext context) async {
+    TimeOfDay? selectedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+
+    if (selectedTime != null) {
+      setState(() {
+        selectedTime = selectedTime;
+      });
+    }
+  }
+
 
   Future<bool> taskCompleteByUser(var taskId, var taskStatus,
       var taskStatusName, var userName, var name, var date, var time) async {
@@ -455,16 +463,11 @@ class ViewSubTaskState extends State<ViewSubTask> {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
 
     return WillPopScope(
-      onWillPop: () {
-        return Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return const SubTaskDashBoard();
-            },
-          ),
-        );
+      onWillPop: () async {
+        Navigator.pop(context); // Go back to the previous screen
+        return true; // Allow the back action
       },
+
       child: AnnotatedRegion<SystemUiOverlayStyle>(
         value: const SystemUiOverlayStyle(
           statusBarColor: Colors.blue,
@@ -1270,7 +1273,7 @@ class ViewSubTaskState extends State<ViewSubTask> {
                                                                                     ),
                                                                                     color: Colors.blue,
                                                                                     onPressed: () async {
-                                                                                      displayTimeDialog();
+                                                                                      _displayTimeDialog(context);
                                                                                     },
                                                                                   ),
                                                         ],),
