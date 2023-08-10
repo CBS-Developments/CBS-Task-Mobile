@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'task.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key key}) : super(key: key);
+  const LoginPage({Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() => _State();
 }
@@ -18,7 +18,7 @@ AssetImage assetsImage = const AssetImage('assets/login_logo_small.jpg');
 var image = Image(image: assetsImage, fit: BoxFit.fill);
 
 class _State extends State<LoginPage> {
-  SharedPreferences sharedPreferences;
+  late SharedPreferences sharedPreferences;
   bool phoneNumberValidation = false;
 
   double sizeHeight = 0.0;
@@ -153,7 +153,7 @@ class _State extends State<LoginPage> {
     };
 
     http.Response res = await http.post(
-      url,
+      Uri.parse(url),
       body: data,
       headers: {
         "Accept": "application/json",
@@ -181,7 +181,7 @@ class _State extends State<LoginPage> {
           if (!mounted) return true;
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const MainDashBoard()),
+            MaterialPageRoute(builder: (context) => MainDashBoard()),
           );
 
         } else {

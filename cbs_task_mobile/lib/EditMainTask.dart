@@ -23,29 +23,29 @@ enum menuitem {
 }
 
 class EditMainTask extends StatefulWidget {
-  const EditMainTask({Key key}) : super(key: key);
+  const EditMainTask({Key? key}) : super(key: key);
   @override
   EditMainTaskState createState() => EditMainTaskState();
 }
 
 class EditMainTaskState extends State<EditMainTask> {
-  String userName;
-  String firstName;
-  String lastName;
-  String mainTaskId;
-  String taskTitle;
-  String taskType;
-  String taskTypeName;
-  String taskCreateBy;
-  String company;
-  String sourceFrom;
-  String assign_to;
-  String dueDate;
-  String taskStatusName;
-  String taskStatus;
-  String taskCreateDate;
-  String documentNumber;
-  String taskCreatedTimestamp;
+  late String userName;
+  late String firstName;
+  late String lastName;
+  late String mainTaskId;
+  late String taskTitle;
+  late String taskType;
+  late String taskTypeName;
+  late String taskCreateBy;
+  late String company;
+  late String sourceFrom;
+  late String assign_to;
+  late String dueDate;
+  late String taskStatusName;
+  late String taskStatus;
+  late String taskCreateDate;
+  late String documentNumber;
+  late String taskCreatedTimestamp;
 
   bool titleValidation = false;
 
@@ -265,7 +265,7 @@ class EditMainTaskState extends State<EditMainTask> {
     };
 
     http.Response res = await http.post(
-      url,
+      Uri.parse(url),
       body: data,
       headers: {
         "Accept": "application/json",
@@ -310,17 +310,24 @@ class EditMainTaskState extends State<EditMainTask> {
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
 
+    // return WillPopScope(
+    //   onWillPop: () {
+    //     return Navigator.push(
+    //       context,
+    //       MaterialPageRoute(
+    //         builder: (context) {
+    //           return  SubTaskDashBoard();
+    //         },
+    //       ),
+    //     );
+    //   },
+
     return WillPopScope(
       onWillPop: () {
-        return Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return const SubTaskDashBoard();
-            },
-          ),
-        );
+        Navigator.pop(context); // Navigating back to the previous screen
+        return Future.value(false); // Indicate that the back action has been handled
       },
+
       child: AnnotatedRegion<SystemUiOverlayStyle>(
         value: const SystemUiOverlayStyle(
           statusBarColor: Colors.deepPurple,
@@ -351,7 +358,7 @@ class EditMainTaskState extends State<EditMainTask> {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return const MainDashBoard();
+                      return MainDashBoard();
                     },
                   ),
                 );
@@ -769,9 +776,9 @@ class EditMainTaskState extends State<EditMainTask> {
                     activeColor: const Color(0xffff0000),
                     value: menuitem.item1,
                     groupValue: mitem,
-                    onChanged: (menuitem value) {
+                    onChanged: (menuitem? value) {
                       setState(() {
-                        mitem = value;
+                        mitem = value!;
                         taskTypePosition = 1;
                         taskTypeString = "Top Urgent";
                       });
@@ -788,9 +795,9 @@ class EditMainTaskState extends State<EditMainTask> {
                     value: menuitem.item2,
                     activeColor: const Color(0xff800000),
                     groupValue: mitem,
-                    onChanged: (menuitem value) {
+                    onChanged: (menuitem? value) {
                       setState(() {
-                        mitem = value;
+                        mitem = value!;
                         taskTypePosition = 2;
                         taskTypeString = "Urgent 24Hr";
                       });
@@ -806,9 +813,9 @@ class EditMainTaskState extends State<EditMainTask> {
                     activeColor: const Color(0xffFFFF00),
                     value: menuitem.item3,
                     groupValue: mitem,
-                    onChanged: (menuitem value) {
+                    onChanged: (menuitem? value) {
                       setState(() {
-                        mitem = value;
+                        mitem = value!;
                         taskTypePosition = 3;
                         taskTypeString = "Error";
                       });
@@ -824,9 +831,9 @@ class EditMainTaskState extends State<EditMainTask> {
                     activeColor: const Color(0xff808000),
                     value: menuitem.item4,
                     groupValue: mitem,
-                    onChanged: (menuitem value) {
+                    onChanged: (menuitem? value) {
                       setState(() {
-                        mitem = value;
+                        mitem = value!;
                         taskTypePosition = 4;
                         taskTypeString = "Remind";
                       });
@@ -842,9 +849,9 @@ class EditMainTaskState extends State<EditMainTask> {
                     activeColor: const Color(0xff00FFFF),
                     value: menuitem.item5,
                     groupValue: mitem,
-                    onChanged: (menuitem value) {
+                    onChanged: (menuitem? value) {
                       setState(() {
-                        mitem = value;
+                        mitem = value!;
                         taskTypePosition = 5;
                         taskTypeString = "Do it again";
                       });
@@ -860,9 +867,9 @@ class EditMainTaskState extends State<EditMainTask> {
                     activeColor: const Color(0xff008080),
                     value: menuitem.item6,
                     groupValue: mitem,
-                    onChanged: (menuitem value) {
+                    onChanged: (menuitem? value) {
                       setState(() {
-                        mitem = value;
+                        mitem = value!;
                         taskTypePosition = 6;
                         taskTypeString = "Correction";
                       });
@@ -878,9 +885,9 @@ class EditMainTaskState extends State<EditMainTask> {
                     activeColor: const Color(0xffFF00FF),
                     value: menuitem.item7,
                     groupValue: mitem,
-                    onChanged: (menuitem value) {
+                    onChanged: (menuitem? value) {
                       setState(() {
-                        mitem = value;
+                        mitem = value!;
                         taskTypePosition = 7;
                         taskTypeString = "Disappointed";
                       });
@@ -896,9 +903,9 @@ class EditMainTaskState extends State<EditMainTask> {
                     activeColor: const Color(0xff800080),
                     value: menuitem.item8,
                     groupValue: mitem,
-                    onChanged: (menuitem value) {
+                    onChanged: (menuitem? value) {
                       setState(() {
-                        mitem = value;
+                        mitem = value!;
                         taskTypePosition = 8;
                         taskTypeString = "V.Disappointed";
                       });
@@ -914,9 +921,9 @@ class EditMainTaskState extends State<EditMainTask> {
                     activeColor: const Color.fromARGB(255, 190, 114, 0),
                     value: menuitem.item9,
                     groupValue: mitem,
-                    onChanged: (menuitem value) {
+                    onChanged: (menuitem? value) {
                       setState(() {
-                        mitem = value;
+                        mitem = value!;
                         taskTypePosition = 9;
                         taskTypeString = "Regular";
                       });
@@ -932,9 +939,9 @@ class EditMainTaskState extends State<EditMainTask> {
                     activeColor: const Color.fromARGB(255, 0, 3, 190),
                     value: menuitem.item10,
                     groupValue: mitem,
-                    onChanged: (menuitem value) {
+                    onChanged: (menuitem? value) {
                       setState(() {
-                        mitem = value;
+                        mitem = value!;
                         taskTypePosition = 10;
                         taskTypeString = "Medium";
                       });
@@ -950,9 +957,9 @@ class EditMainTaskState extends State<EditMainTask> {
                     activeColor: const Color.fromARGB(255, 14, 168, 0),
                     value: menuitem.item11,
                     groupValue: mitem,
-                    onChanged: (menuitem value) {
+                    onChanged: (menuitem? value) {
                       setState(() {
-                        mitem = value;
+                        mitem = value!;
                         taskTypePosition = 11;
                         taskTypeString = "Low";
                       });
@@ -987,9 +994,9 @@ class EditMainTaskState extends State<EditMainTask> {
                                   ),
                                 );
                               }).toList(),
-                              onChanged: (String newValue) {
+                              onChanged: (String? newValue) {
                                 setState(() {
-                                  dropdownvalue1 = newValue;
+                                  dropdownvalue1 = newValue!;
                                 });
                               },
                             ),
@@ -1020,9 +1027,9 @@ class EditMainTaskState extends State<EditMainTask> {
                                   ),
                                 );
                               }).toList(),
-                              onChanged: (String newValue) {
+                              onChanged: (String? newValue) {
                                 setState(() {
-                                  dropdownvalue2 = newValue;
+                                  dropdownvalue2 = newValue!;
                                   assignTo.add(dropdownvalue2);
                                   assignToController.text = assignTo.toString();
                                 });
@@ -1140,9 +1147,9 @@ class EditMainTaskState extends State<EditMainTask> {
                             ),
                           );
                         }).toList(),
-                        onChanged: (String newValue) {
+                        onChanged: (String? newValue) {
                           setState(() {
-                            dropdownvalue3 = newValue;
+                            dropdownvalue3 = newValue!;
                           });
                         },
                       ),

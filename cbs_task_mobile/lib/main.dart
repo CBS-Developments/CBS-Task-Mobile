@@ -12,7 +12,7 @@ void main() async {
 
 class LandingPage extends StatelessWidget {
   final SharedPreferences prefs;
-  const LandingPage({Key key, this.prefs}) : super(key: key);
+  const LandingPage({Key? key, required this.prefs}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -26,7 +26,7 @@ class LandingPage extends StatelessWidget {
 
   _decideMainPage() {
     if (prefs.getString('login_state') != null) {
-      return const MainDashBoard();
+      return MainDashBoard();
     } else {
       return const LoginPage();
     }

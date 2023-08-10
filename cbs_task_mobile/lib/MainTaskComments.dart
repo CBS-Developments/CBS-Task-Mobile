@@ -10,19 +10,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 
 class MainTaskComments extends StatefulWidget {
-  const MainTaskComments({Key key}) : super(key: key);
+  const MainTaskComments({Key? key}) : super(key: key);
 
   @override
   State<MainTaskComments> createState() => _MainTaskCommentsState();
 }
 
 class _MainTaskCommentsState extends State<MainTaskComments> {
-  String userName;
-  String firstName;
-  String lastName;
-  String userRole;
-  String mainTaskId;
-  String mainTaskTitle;
+  late String userName;
+  late String firstName;
+  late String lastName;
+  late String userRole;
+  late String mainTaskId;
+  late String mainTaskTitle;
 
   TextEditingController mainTaskCommentController = TextEditingController();
 
@@ -58,7 +58,7 @@ class _MainTaskCommentsState extends State<MainTaskComments> {
     };
 
     http.Response res = await http.post(
-      url,
+      Uri.parse(url),
       body: data,
       headers: {
         "Accept": "application/json",
@@ -86,14 +86,14 @@ class _MainTaskCommentsState extends State<MainTaskComments> {
     return true;
   }
 
-  Future<List<comment>> getMainTaskCommentList(var taskId) async {
+  Future<List<comment>?> getMainTaskCommentList(var taskId) async {
     var data = {
       "task_id": "$taskId",
     };
 
     const url = "http://dev.connect.cbs.lk/commentListById.php";
     http.Response res = await http.post(
-      url,
+      Uri.parse(url),
       body: data,
       headers: {
         "Accept": "application/json",
@@ -117,7 +117,7 @@ class _MainTaskCommentsState extends State<MainTaskComments> {
     return null;
   }
 
-  Future<void> deleteCommentInMainTask(
+  Future<bool> deleteCommentInMainTask(
       var commentId, var commentStatus, var userName, var name) async {
     int timestamp = DateTime.now().millisecondsSinceEpoch;
     int taskTimeStamp = timestamp;
@@ -139,7 +139,7 @@ class _MainTaskCommentsState extends State<MainTaskComments> {
     };
 
     http.Response res = await http.post(
-      url,
+      Uri.parse(url),
       body: data,
       headers: {
         "Accept": "application/json",
@@ -194,7 +194,9 @@ class _MainTaskCommentsState extends State<MainTaskComments> {
     double textFontSmall = (sizeHeight * 0.006) * (sizeWidth * 0.006);
     double paddingCard = (sizeHeight * 0.0005) * (sizeWidth * 0.0004);
     return WillPopScope(
-      onWillPop: () async => null,
+      onWillPop: () async {
+        return Future.value(false);
+      },
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
@@ -220,7 +222,7 @@ class _MainTaskCommentsState extends State<MainTaskComments> {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return const SubTaskDashBoard();
+                    return  SubTaskDashBoard();
                   },
                 ),
               );
@@ -235,18 +237,18 @@ class _MainTaskCommentsState extends State<MainTaskComments> {
                 color: Colors.white,
                 height: sizeHeight,
                 width: sizeWidth,
-                child: FutureBuilder<List<comment>>(
+                child: FutureBuilder<List<comment>?>(
                     future: getMainTaskCommentList(mainTaskId),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        List<comment> data = snapshot.data;
+                        List<comment>? data = snapshot.data;
                         return ListView.builder(
-                            itemCount: data.length,
+                            itemCount: data?.length,
                             itemBuilder: (context, index) {
                               return Card(
                                   child: ListTile(
                                 title: SelectableText(
-                                  data[index].commnt,
+                                  data![index].commnt,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: textFontNormal),

@@ -178,12 +178,12 @@ import 'package:geolocator/geolocator.dart';
 /// Example [Widget] showing the functionalities of the geolocator plugin
 class GeolocatorWidget extends StatefulWidget {
   /// Creates a new GeolocatorWidget.
-  const GeolocatorWidget({Key key}) : super(key: key);
+  const GeolocatorWidget({Key? key}) : super(key: key);
 
   /// Utility method to create a page with the Baseflow templating.
   static ExamplePage createPage() {
     return ExamplePage(
-        Icons.location_on, (context) => const GeolocatorWidget());
+        Icons.location_on, (context) =>  GeolocatorWidget());
   }
 
   @override
@@ -200,8 +200,8 @@ class GeolocatorWidgetState extends State<GeolocatorWidget> {
 
   final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
   final List<_PositionItem> _positionItems = <_PositionItem>[];
-  StreamSubscription<Position> _positionStreamSubscription;
-  StreamSubscription<ServiceStatus> _serviceStatusStreamSubscription;
+  late StreamSubscription<Position> _positionStreamSubscription;
+  late StreamSubscription<ServiceStatus> _serviceStatusStreamSubscription;
   bool positionStreamStarted = false;
 
   @override
@@ -431,7 +431,7 @@ class GeolocatorWidgetState extends State<GeolocatorWidget> {
       _serviceStatusStreamSubscription =
           serviceStatusStream.handleError((error) {
             _serviceStatusStreamSubscription?.cancel();
-            _serviceStatusStreamSubscription = null;
+            _serviceStatusStreamSubscription == null;
           }).listen((serviceStatus) {
             String serviceStatusValue;
             if (serviceStatus == ServiceStatus.enabled) {
@@ -443,7 +443,7 @@ class GeolocatorWidgetState extends State<GeolocatorWidget> {
               if (_positionStreamSubscription != null) {
                 setState(() {
                   _positionStreamSubscription?.cancel();
-                  _positionStreamSubscription = null;
+                  _positionStreamSubscription == null;
                   _updatePositionList(
                       _PositionItemType.log, 'Position Stream has been canceled');
                 });
@@ -463,7 +463,7 @@ class GeolocatorWidgetState extends State<GeolocatorWidget> {
       final positionStream = _geolocatorPlatform.getPositionStream();
       _positionStreamSubscription = positionStream.handleError((error) {
         _positionStreamSubscription?.cancel();
-        _positionStreamSubscription = null;
+        _positionStreamSubscription == null;
       }).listen((position) => _updatePositionList(
         _PositionItemType.position,
         position.toString(),
@@ -496,7 +496,7 @@ class GeolocatorWidgetState extends State<GeolocatorWidget> {
   void dispose() {
     if (_positionStreamSubscription != null) {
       _positionStreamSubscription.cancel();
-      _positionStreamSubscription = null;
+      _positionStreamSubscription == null;
     }
 
     super.dispose();

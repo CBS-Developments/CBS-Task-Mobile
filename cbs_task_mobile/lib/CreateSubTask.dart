@@ -24,7 +24,7 @@ enum menuitem {
 }
 
 class CreateSubTask extends StatefulWidget {
-  const CreateSubTask({Key key}) : super(key: key);
+  const CreateSubTask({Key? key}) : super(key: key);
 
   @override
   CreateSubTaskState createState() => CreateSubTaskState();
@@ -38,13 +38,13 @@ class CreateSubTaskState extends State<CreateSubTask> {
   String taskTypeString = "Top Urgent";
   // ignore: unused_field
   menuitem _mitem = menuitem.item1;
-  String userName;
-  String firstName;
-  String lastName;
-  String intentFrom;
-  String userRole;
-  String mainTaskId;
-  String mainTaskTitle;
+  late String userName;
+  late String firstName;
+  late String lastName;
+  late String intentFrom;
+  late String userRole;
+  late String mainTaskId;
+  late String mainTaskTitle;
   List<String> assignTo = [];
 
  // TextEditingController titleController = TextEditingController();
@@ -149,7 +149,7 @@ class CreateSubTaskState extends State<CreateSubTask> {
     };
 
     http.Response res = await http.post(
-      url,
+      Uri.parse(url),
       body: data,
       headers: {
         "Accept": "application/json",
@@ -195,17 +195,38 @@ class CreateSubTaskState extends State<CreateSubTask> {
     double paddingCard = (sizeHeight * 0.0005) * (sizeWidth * 0.0004);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
 
+    // return WillPopScope(
+    //   onWillPop: () {
+    //     return Navigator.push(
+    //       context,
+    //       MaterialPageRoute(
+    //         builder: (context) {
+    //           return SubTaskDashBoard();
+    //         },
+    //       ),
+    //     );
+    //   },
+
     return WillPopScope(
-      onWillPop: () {
-        return Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return const SubTaskDashBoard();
-            },
-          ),
-        );
+      onWillPop: () async {
+        if (intentFrom == 'main_dashboard') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MainDashBoard(),
+            ),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SubTaskDashBoard(),
+            ),
+          );
+        }
+        return true; // Allow the default back behavior
       },
+
       child: AnnotatedRegion<SystemUiOverlayStyle>(
         value: const SystemUiOverlayStyle(
           statusBarColor: Colors.blue,
@@ -237,7 +258,7 @@ class CreateSubTaskState extends State<CreateSubTask> {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return const MainDashBoard();
+                        return MainDashBoard();
                       },
                     ),
                   );
@@ -246,7 +267,7 @@ class CreateSubTaskState extends State<CreateSubTask> {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return const SubTaskDashBoard();
+                        return SubTaskDashBoard();
                       },
                     ),
                   );
@@ -331,9 +352,9 @@ class CreateSubTaskState extends State<CreateSubTask> {
                     activeColor: const Color(0xffff0000),
                     value: menuitem.item1,
                     groupValue: _mitem,
-                    onChanged: (menuitem value) {
+                    onChanged: (menuitem? value) {
                       setState(() {
-                        _mitem = value;
+                        _mitem = value!;
                         taskType = 1;
                         taskTypeString = "Top Urgent";
                       });
@@ -350,9 +371,9 @@ class CreateSubTaskState extends State<CreateSubTask> {
                     value: menuitem.item2,
                     activeColor: const Color(0xff800000),
                     groupValue: _mitem,
-                    onChanged: (menuitem value) {
+                    onChanged: (menuitem? value) {
                       setState(() {
-                        _mitem = value;
+                        _mitem = value!;
                         taskType = 2;
                         taskTypeString = "Urgent 24Hr";
                       });
@@ -368,9 +389,9 @@ class CreateSubTaskState extends State<CreateSubTask> {
                     activeColor: const Color(0xffFFFF00),
                     value: menuitem.item3,
                     groupValue: _mitem,
-                    onChanged: (menuitem value) {
+                    onChanged: (menuitem? value) {
                       setState(() {
-                        _mitem = value;
+                        _mitem = value!;
                         taskType = 3;
                         taskTypeString = "Error";
                       });
@@ -386,9 +407,9 @@ class CreateSubTaskState extends State<CreateSubTask> {
                     activeColor: const Color(0xff808000),
                     value: menuitem.item4,
                     groupValue: _mitem,
-                    onChanged: (menuitem value) {
+                    onChanged: (menuitem? value) {
                       setState(() {
-                        _mitem = value;
+                        _mitem = value!;
                         taskType = 4;
                         taskTypeString = "Remind";
                       });
@@ -404,9 +425,9 @@ class CreateSubTaskState extends State<CreateSubTask> {
                     activeColor: const Color(0xff00FFFF),
                     value: menuitem.item5,
                     groupValue: _mitem,
-                    onChanged: (menuitem value) {
+                    onChanged: (menuitem? value) {
                       setState(() {
-                        _mitem = value;
+                        _mitem = value!;
                         taskType = 5;
                         taskTypeString = "Do it again";
                       });
@@ -422,9 +443,9 @@ class CreateSubTaskState extends State<CreateSubTask> {
                     activeColor: const Color(0xff008080),
                     value: menuitem.item6,
                     groupValue: _mitem,
-                    onChanged: (menuitem value) {
+                    onChanged: (menuitem? value) {
                       setState(() {
-                        _mitem = value;
+                        _mitem = value!;
                         taskType = 6;
                         taskTypeString = "Correction";
                       });
@@ -440,9 +461,9 @@ class CreateSubTaskState extends State<CreateSubTask> {
                     activeColor: const Color(0xffFF00FF),
                     value: menuitem.item7,
                     groupValue: _mitem,
-                    onChanged: (menuitem value) {
+                    onChanged: (menuitem? value) {
                       setState(() {
-                        _mitem = value;
+                        _mitem = value!;
                         taskType = 7;
                         taskTypeString = "Disappointed";
                       });
@@ -458,9 +479,9 @@ class CreateSubTaskState extends State<CreateSubTask> {
                     activeColor: const Color(0xff800080),
                     value: menuitem.item8,
                     groupValue: _mitem,
-                    onChanged: (menuitem value) {
+                    onChanged: (menuitem? value) {
                       setState(() {
-                        _mitem = value;
+                        _mitem = value!;
                         taskType = 8;
                         taskTypeString = "V.Disappointed";
                       });
@@ -476,9 +497,9 @@ class CreateSubTaskState extends State<CreateSubTask> {
                     activeColor: const Color.fromARGB(255, 190, 114, 0),
                     value: menuitem.item9,
                     groupValue: _mitem,
-                    onChanged: (menuitem value) {
+                    onChanged: (menuitem? value) {
                       setState(() {
-                        _mitem = value;
+                        _mitem = value!;
                         taskType = 9;
                         taskTypeString = "Regular";
                       });
@@ -494,9 +515,9 @@ class CreateSubTaskState extends State<CreateSubTask> {
                     activeColor: const Color.fromARGB(255, 0, 3, 190),
                     value: menuitem.item10,
                     groupValue: _mitem,
-                    onChanged: (menuitem value) {
+                    onChanged: (menuitem? value) {
                       setState(() {
-                        _mitem = value;
+                        _mitem = value!;
                         taskType = 10;
                         taskTypeString = "Medium";
                       });
@@ -512,9 +533,9 @@ class CreateSubTaskState extends State<CreateSubTask> {
                     activeColor: const Color.fromARGB(255, 14, 168, 0),
                     value: menuitem.item11,
                     groupValue: _mitem,
-                    onChanged: (menuitem value) {
+                    onChanged: (menuitem? value) {
                       setState(() {
-                        _mitem = value;
+                        _mitem = value!;
                         taskType = 11;
                         taskTypeString = "Low";
                       });
@@ -549,9 +570,9 @@ class CreateSubTaskState extends State<CreateSubTask> {
                                   ),
                                 );
                               }).toList(),
-                              onChanged: (String newValue) {
+                              onChanged: (String? newValue) {
                                 setState(() {
-                                  dropdownvalue1 = newValue;
+                                  dropdownvalue1 = newValue!;
                                 });
                               },
                             ),
@@ -582,9 +603,9 @@ class CreateSubTaskState extends State<CreateSubTask> {
                                   ),
                                 );
                               }).toList(),
-                              onChanged: (String newValue) {
+                              onChanged: (String? newValue) {
                                 setState(() {
-                                  dropdownvalue2 = newValue;
+                                  dropdownvalue2 = newValue!;
                                   assignTo.add(dropdownvalue2);
                                   assignToController.text = assignTo.toString();
                                 });
@@ -702,9 +723,9 @@ class CreateSubTaskState extends State<CreateSubTask> {
                             ),
                           );
                         }).toList(),
-                        onChanged: (String newValue) {
+                        onChanged: (String? newValue) {
                           setState(() {
-                            dropdownvalue3 = newValue;
+                            dropdownvalue3 = newValue!;
                           });
                         },
                       ),

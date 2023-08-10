@@ -11,27 +11,27 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TaskLog extends StatefulWidget {
-  const TaskLog({Key key}) : super(key: key);
+  const TaskLog({Key? key}) : super(key: key);
 
   @override
   TaskLogState createState() => TaskLogState();
 }
 
 class TaskLogState extends State<TaskLog> {
-  Timer timer;
-  String userName;
-  String firstName;
-  String lastName;
-  String userRole;
+  late Timer timer;
+  late String userName;
+  late String firstName;
+  late String lastName;
+  late String userRole;
   List<MainTask> searchResultAsMainTaskList = [];
   List<MainTask> mainTaskList = [];
   List<taskLog> taskLogList = [];
   TextEditingController taskListController = TextEditingController();
-  List jsonResponse;
+  late List jsonResponse;
   var s_year;
   var s_month ;
 
-  Future<List<taskLog>> getTaskLogList() async {
+  Future<List?> getTaskLogList() async {
 
     final now = DateTime.now();
      s_year = DateFormat('yyyy').format(now);
@@ -44,7 +44,7 @@ class TaskLogState extends State<TaskLog> {
 
     const url = "http://dev.connect.cbs.lk/taskLogListByMonth.php";
     http.Response res = await http.post(
-      url,
+      Uri.parse(url),
       body: data,
       headers: {
         "Accept": "application/json",
@@ -473,18 +473,18 @@ class TaskLogState extends State<TaskLog> {
                           future: getTaskLogList(),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
-                              List<taskLog> data = snapshot.data;
+                              List<taskLog>? data = snapshot.data;
 
-                              data.sort((a, b) => b.logCreateByTimestamp
+                              data?.sort((a, b) => b.logCreateByTimestamp
                                   .compareTo(a.logCreateByTimestamp));
                               return ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
-                                  itemCount: data.length,
+                                  itemCount: data?.length,
                                   itemBuilder: (context, index) {
                                     return ListTile(
                                       title: rowDataAsTaskLog(
-                                        data,
+                                        data!,
                                         context,
                                         (index + 1),
                                         sizeHeight,

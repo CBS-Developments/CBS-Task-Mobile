@@ -11,30 +11,30 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 
 class SubTaskComments extends StatefulWidget {
-  const SubTaskComments({Key key}) : super(key: key);
+  const SubTaskComments({Key? key}) : super(key: key);
 
   @override
   State<SubTaskComments> createState() => _SubTaskCommentsState();
 }
 
 class _SubTaskCommentsState extends State<SubTaskComments> {
-  String userName;
-  String firstName;
-  String lastName;
-  String userRole;
-  String taskId;
-  String taskTitle;
+  late String userName;
+  late String firstName;
+  late String lastName;
+  late String userRole;
+  late String taskId;
+  late String taskTitle;
 
   TextEditingController commentEditingController = TextEditingController();
 
-  Future<List<comment>> getCommentList(var taskId) async {
+  Future<List<comment>?> getCommentList(var taskId) async {
     var data = {
       "task_id": "$taskId",
     };
 
     const url = "http://dev.connect.cbs.lk/commentListById.php";
     http.Response res = await http.post(
-      url,
+      Uri.parse(url),
       body: data,
       headers: {
         "Accept": "application/json",
@@ -87,7 +87,7 @@ class _SubTaskCommentsState extends State<SubTaskComments> {
     };
 
     http.Response res = await http.post(
-      url,
+      Uri.parse(url),
       body: data,
       headers: {
         "Accept": "application/json",
@@ -114,14 +114,14 @@ class _SubTaskCommentsState extends State<SubTaskComments> {
     }
     return true;
   }
-  Future<List<comment>> getMainTaskCommentList(var taskId) async {
+  Future<List<comment>?> getMainTaskCommentList(var taskId) async {
     var data = {
       "task_id": "$taskId",
     };
 
     const url = "http://dev.connect.cbs.lk/commentListById.php";
     http.Response res = await http.post(
-      url,
+      Uri.parse(url),
       body: data,
       headers: {
         "Accept": "application/json",
@@ -145,7 +145,7 @@ class _SubTaskCommentsState extends State<SubTaskComments> {
     return null;
   }
 
-  Future<void> deleteComment(
+  Future<bool> deleteComment(
       var commentId, var commentStatus, var userName, var name) async {
     int timestamp = DateTime.now().millisecondsSinceEpoch;
     int taskTimeStamp = timestamp;
@@ -167,7 +167,7 @@ class _SubTaskCommentsState extends State<SubTaskComments> {
     };
 
     http.Response res = await http.post(
-      url,
+      Uri.parse(url),
       body: data,
       headers: {
         "Accept": "application/json",
@@ -222,7 +222,9 @@ class _SubTaskCommentsState extends State<SubTaskComments> {
     double textFontSmall = (sizeHeight * 0.006) * (sizeWidth * 0.006);
     double paddingCard = (sizeHeight * 0.0005) * (sizeWidth * 0.0004);
     return WillPopScope(
-      onWillPop: () async => null,
+      onWillPop: () async {
+        return Future.value(false);
+      },
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
@@ -248,7 +250,7 @@ class _SubTaskCommentsState extends State<SubTaskComments> {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return const ViewSubTask();
+                    return  ViewSubTask();
                   },
                 ),
               );
@@ -263,24 +265,24 @@ class _SubTaskCommentsState extends State<SubTaskComments> {
                 color: Colors.white,
                 height: sizeHeight,
                 width: sizeWidth,
-                child: FutureBuilder<List<comment>>(
+                child: FutureBuilder<List<comment>?>(
                     future: getCommentList(taskId),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        List<comment> data = snapshot.data;
+                        List<comment>? data = snapshot.data;
                         return ListView.builder(
-                            itemCount: data.length,
+                            itemCount: data?.length,
                             itemBuilder: (context, index) {
                               return Card(
                                   child: ListTile(
                                     title: SelectableText(
-                                      data[index].commnt,
+                                      data![index].commnt,
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: textFontNormal),
                                     ),
                                     subtitle: Text(
-                                      "${data[index].commentCreateDate}      ${data[index].commentCreateBy}",
+                                      "${data?[index].commentCreateDate}      ${data?[index].commentCreateBy}",
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: textFontSmall,
@@ -294,10 +296,10 @@ class _SubTaskCommentsState extends State<SubTaskComments> {
                                       ),
                                       // highlightColor: Colors.pink,
                                       onPressed: () {
-                                        if (data[index].commentCreateById ==
+                                        if (data?[index].commentCreateById ==
                                             userName) {
                                           deleteComment(
-                                              data[index].commentId,
+                                              data?[index].commentId,
                                               "0",
                                               userName,
                                               "$firstName $lastName");

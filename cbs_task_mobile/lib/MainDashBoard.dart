@@ -14,17 +14,17 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MainDashBoard extends StatefulWidget {
-  const MainDashBoard({Key key}) : super(key: key);
+  const MainDashBoard({Key? key}) : super(key: key);
 
   @override
   MainDashBoardState createState() => MainDashBoardState();
 }
 
 class MainDashBoardState extends State<MainDashBoard> {
-  String userName;
-  String firstName;
-  String lastName;
-  String userRole;
+  late String userName;
+  late String firstName;
+  late String lastName;
+  late String userRole;
   List<MainTask> searchResultAsMainTaskList = [];
   List<MainTask> mainTaskList = [];
   TextEditingController taskListController = TextEditingController();
@@ -79,7 +79,7 @@ class MainDashBoardState extends State<MainDashBoard> {
 
     const url = "http://dev.connect.cbs.lk/mainTaskList.php";
     http.Response res = await http.post(
-      url,
+      Uri.parse(url),
       body: data,
       headers: {
         "Accept": "application/json",
@@ -171,7 +171,7 @@ class MainDashBoardState extends State<MainDashBoard> {
     );
   }
 
-  Future<void> removeMainTask(
+  Future<bool> removeMainTask(
       var taskId, var taskStatus, var taskStatusName) async {
     int timestamp = DateTime.now().millisecondsSinceEpoch;
     int taskTimeStamp = timestamp;
@@ -192,7 +192,7 @@ class MainDashBoardState extends State<MainDashBoard> {
     };
 
     http.Response res = await http.post(
-      url,
+      Uri.parse(url),
       body: data,
       headers: {
         "Accept": "application/json",
@@ -457,7 +457,7 @@ class MainDashBoardState extends State<MainDashBoard> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              const SubTaskDashBoard()),
+                                               SubTaskDashBoard()),
                                     );
                                   },
                                   onLongPress: () {
@@ -764,7 +764,7 @@ class MainDashBoardState extends State<MainDashBoard> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) {
-                      return const TaskLog();
+                      return TaskLog();
                     }),
                   );
                 },
@@ -862,10 +862,10 @@ class MainDashBoardState extends State<MainDashBoard> {
                                       ),
                                     );
                                   }).toList(),
-                                  onChanged: (String value) {
+                                  onChanged: (String? value) {
                                     setState(() {
                                       taskListController.text = "";
-                                      dropdownvalue = value;
+                                      dropdownvalue = value!;
                                       if (dropdownvalue != "-All-") {
                                         taskListController.text =
                                             dropdownvalue.toString();
@@ -908,10 +908,10 @@ class MainDashBoardState extends State<MainDashBoard> {
                                       ),
                                     );
                                   }).toList(),
-                                  onChanged: (String value) {
+                                  onChanged: (String? value) {
                                     setState(() {
                                       taskListController.text = "";
-                                      dropdownvalue1 = value;
+                                      dropdownvalue1 = value!;
                                       if (dropdownvalue1 != "-All-") {
                                         taskListController.text =
                                             dropdownvalue1.toString();
@@ -954,10 +954,10 @@ class MainDashBoardState extends State<MainDashBoard> {
                                       ),
                                     );
                                   }).toList(),
-                                  onChanged: (String value) {
+                                  onChanged: (String? value) {
                                     setState(() {
                                       taskListController.text = "";
-                                      dropdownvalue2 = value;
+                                      dropdownvalue2 = value!;
                                       if (dropdownvalue2 != "-All-") {
                                         taskListController.text =
                                             dropdownvalue2.toString();
@@ -1010,10 +1010,10 @@ class MainDashBoardState extends State<MainDashBoard> {
                               ),
                             );
                           }).toList(),
-                          onChanged: (String value) {
+                          onChanged: (String? value) {
                             setState(() {
                               taskListController.text = "";
-                              dropdownvalue3 = value;
+                              dropdownvalue3 = value!;
                               if (dropdownvalue3 != "-All-") {
                                 taskListController.text =
                                     dropdownvalue3.toString();

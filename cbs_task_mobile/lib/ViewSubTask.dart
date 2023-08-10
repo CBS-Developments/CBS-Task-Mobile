@@ -24,7 +24,7 @@ enum menuitem {
 }
 
 class ViewSubTask extends StatefulWidget {
-  const ViewSubTask({Key key}) : super(key: key);
+  const ViewSubTask({Key? key}) : super(key: key);
   @override
   ViewSubTaskState createState() => ViewSubTaskState();
 }
@@ -56,7 +56,7 @@ class ViewSubTaskState extends State<ViewSubTask> {
  // var selectedtime = "";
   String selectedTime = "";
 
-  DateTime _selectedDate;
+  late DateTime _selectedDate;
   final TextEditingController _textEditingController = TextEditingController();
 
 
@@ -94,7 +94,7 @@ class ViewSubTaskState extends State<ViewSubTask> {
     });
   }
 
-  Future<void> updateTaskProgress(var taskId, var taskStatus,
+  Future<bool> updateTaskProgress(var taskId, var taskStatus,
       var taskStatusName, var userName, var name) async {
     int timestamp = DateTime.now().millisecondsSinceEpoch;
     int taskTimeStamp = timestamp;
@@ -103,7 +103,7 @@ class ViewSubTaskState extends State<ViewSubTask> {
     var dt = DateTime.fromMillisecondsSinceEpoch(taskTimeStamp);
 
     var stringDate = DateFormat('MM/dd/yyyy, hh:mm a').format(dt);
-    String url;
+    late String url;
 
     if (taskStatus == "1") {
       url = "http://dev.connect.cbs.lk/markInProgress.php";
@@ -121,7 +121,7 @@ class ViewSubTaskState extends State<ViewSubTask> {
     };
 
     http.Response res = await http.post(
-      url,
+      Uri.parse(url),
       body: data,
       headers: {
         "Accept": "application/json",
@@ -156,7 +156,7 @@ class ViewSubTaskState extends State<ViewSubTask> {
   }
 
   _selectDate(BuildContext context) async {
-    DateTime newSelectedDate = await showDatePicker(
+    DateTime? newSelectedDate = await showDatePicker(
         context: context,
         initialDate: _selectedDate ?? DateTime.now(),
         firstDate: DateTime(2000),
@@ -187,7 +187,7 @@ class ViewSubTaskState extends State<ViewSubTask> {
   }
 
   Future<void> displayTimeDialog() async {
-    final TimeOfDay time =
+    final TimeOfDay? time =
     await showTimePicker(context: context, initialTime: TimeOfDay.now());
     if (time != null) {
       setState(() {
@@ -196,7 +196,7 @@ class ViewSubTaskState extends State<ViewSubTask> {
     }
   }
 
-  Future<void> taskCompleteByUser(var taskId, var taskStatus,
+  Future<bool> taskCompleteByUser(var taskId, var taskStatus,
       var taskStatusName, var userName, var name, var date, var time) async {
     DateTime dt = DateFormat('MMM d, yyyy h:mm a').parse("$date $time");
 
@@ -216,7 +216,7 @@ class ViewSubTaskState extends State<ViewSubTask> {
     };
 
     http.Response res = await http.post(
-      url,
+      Uri.parse(url),
       body: data,
       headers: {
         "Accept": "application/json",

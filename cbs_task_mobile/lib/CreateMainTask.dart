@@ -23,7 +23,7 @@ enum menuitem {
 }
 
 class CreateMainTask extends StatefulWidget {
-  const CreateMainTask({Key key}) : super(key: key);
+  const CreateMainTask({Key? key}) : super(key: key);
 
   @override
   CreateMainTaskState createState() => CreateMainTaskState();
@@ -37,9 +37,9 @@ class CreateMainTaskState extends State<CreateMainTask> {
   String taskTypeString = "Top Urgent";
   // ignore: unused_field
   menuitem _mitem = menuitem.item1;
-  String userName;
-  String firstName;
-  String lastName;
+  late String userName;
+  late String firstName;
+  late String lastName;
   List<String> assignTo = [];
 
   TextEditingController titleController = TextEditingController();
@@ -125,7 +125,7 @@ class CreateMainTaskState extends State<CreateMainTask> {
     };
 
     http.Response res = await http.post(
-      url,
+      Uri.parse(url),
       body: data,
       headers: {
         "Accept": "application/json",
@@ -225,7 +225,7 @@ class CreateMainTaskState extends State<CreateMainTask> {
     };
 
     http.Response res = await http.post(
-      url,
+      Uri.parse(url),
       body: data,
       headers: {
         "Accept": "application/json",
@@ -255,14 +255,14 @@ class CreateMainTaskState extends State<CreateMainTask> {
     double sizeHeight = MediaQuery.of(context).size.height;
     double sizeWidth = MediaQuery.of(context).size.width;
 
-    double textFontNormal = (sizeHeight * 0.008) * (sizeWidth * 0.008);
+   // double textFontNormal = (sizeHeight * 0.008) * (sizeWidth * 0.008);
     double textFontLarge = (sizeHeight * 0.025) * (sizeWidth * 0.002);
     double paddingButton = (sizeHeight * 0.004) * (sizeWidth * 0.0008);
     double padding = (sizeHeight * 0.012) * (sizeWidth * 0.0012);
     double iconSize = (sizeHeight * 0.008) * (sizeWidth * 0.008);
     double textFontNormal2 = (sizeHeight * 0.022) * (sizeWidth * 0.0022);
 
-    double paddingCard = (sizeHeight * 0.0005) * (sizeWidth * 0.0004);
+    // double paddingCard = (sizeHeight * 0.0005) * (sizeWidth * 0.0004);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -295,7 +295,7 @@ class CreateMainTaskState extends State<CreateMainTask> {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return const MainDashBoard();
+                    return  MainDashBoard();
                   },
                 ),
               );
@@ -378,13 +378,14 @@ class CreateMainTaskState extends State<CreateMainTask> {
                   'Top Urgent',
                   style: TextStyle(fontSize: textFontNormal2),
                 ),
-                trailing: Radio<menuitem>(
+                trailing: Radio<menuitem?>(
                   activeColor: const Color(0xffff0000),
                   value: menuitem.item1,
                   groupValue: _mitem,
-                  onChanged: (menuitem value) {
+                  
+                  onChanged: (menuitem? value) {
                     setState(() {
-                      _mitem = value;
+                      _mitem = value!;
                       taskType = 1;
                       taskTypeString = "Top Urgent";
                     });
@@ -401,9 +402,10 @@ class CreateMainTaskState extends State<CreateMainTask> {
                   value: menuitem.item2,
                   activeColor: const Color(0xff800000),
                   groupValue: _mitem,
-                  onChanged: (menuitem value) {
+                  
+                  onChanged: (menuitem? value) {
                     setState(() {
-                      _mitem = value;
+                      _mitem = value!;
                       taskType = 2;
                       taskTypeString = "Urgent 24Hr";
                     });
@@ -419,9 +421,10 @@ class CreateMainTaskState extends State<CreateMainTask> {
                   activeColor: const Color(0xffFFFF00),
                   value: menuitem.item3,
                   groupValue: _mitem,
-                  onChanged: (menuitem value) {
+                  
+                  onChanged: (menuitem? value) {
                     setState(() {
-                      _mitem = value;
+                      _mitem = value!;
                       taskType = 3;
                       taskTypeString = "Error";
                     });
@@ -437,9 +440,10 @@ class CreateMainTaskState extends State<CreateMainTask> {
                   activeColor: const Color(0xff808000),
                   value: menuitem.item4,
                   groupValue: _mitem,
-                  onChanged: (menuitem value) {
+                 
+                  onChanged: (menuitem? value) {
                     setState(() {
-                      _mitem = value;
+                      _mitem = value!;
                       taskType = 4;
                       taskTypeString = "Remind";
                     });
@@ -455,9 +459,10 @@ class CreateMainTaskState extends State<CreateMainTask> {
                   activeColor: const Color(0xff00FFFF),
                   value: menuitem.item5,
                   groupValue: _mitem,
-                  onChanged: (menuitem value) {
+                 
+                  onChanged: (menuitem? value) {
                     setState(() {
-                      _mitem = value;
+                      _mitem = value!;
                       taskType = 5;
                       taskTypeString = "Do it again";
                     });
@@ -473,9 +478,10 @@ class CreateMainTaskState extends State<CreateMainTask> {
                   activeColor: const Color(0xff008080),
                   value: menuitem.item6,
                   groupValue: _mitem,
-                  onChanged: (menuitem value) {
+                  
+                  onChanged: (menuitem? value) {
                     setState(() {
-                      _mitem = value;
+                      _mitem = value!;
                       taskType = 6;
                       taskTypeString = "Correction";
                     });
@@ -491,9 +497,10 @@ class CreateMainTaskState extends State<CreateMainTask> {
                   activeColor: const Color(0xffFF00FF),
                   value: menuitem.item7,
                   groupValue: _mitem,
-                  onChanged: (menuitem value) {
+                  
+                  onChanged: (menuitem? value) {
                     setState(() {
-                      _mitem = value;
+                      _mitem = value!;
                       taskType = 7;
                       taskTypeString = "Disappointed";
                     });
@@ -509,9 +516,10 @@ class CreateMainTaskState extends State<CreateMainTask> {
                   activeColor: const Color(0xff800080),
                   value: menuitem.item8,
                   groupValue: _mitem,
-                  onChanged: (menuitem value) {
+                  
+                  onChanged: (menuitem? value) {
                     setState(() {
-                      _mitem = value;
+                      _mitem = value!;
                       taskType = 8;
                       taskTypeString = "V.Disappointed";
                     });
@@ -527,9 +535,10 @@ class CreateMainTaskState extends State<CreateMainTask> {
                   activeColor: const Color.fromARGB(255, 190, 114, 0),
                   value: menuitem.item9,
                   groupValue: _mitem,
-                  onChanged: (menuitem value) {
+                  
+                  onChanged: (menuitem? value) {
                     setState(() {
-                      _mitem = value;
+                      _mitem = value!;
                       taskType = 9;
                       taskTypeString = "Regular";
                     });
@@ -545,9 +554,10 @@ class CreateMainTaskState extends State<CreateMainTask> {
                   activeColor: const Color.fromARGB(255, 0, 3, 190),
                   value: menuitem.item10,
                   groupValue: _mitem,
-                  onChanged: (menuitem value) {
+                  
+                  onChanged: (menuitem? value) {
                     setState(() {
-                      _mitem = value;
+                      _mitem = value!;
                       taskType = 10;
                       taskTypeString = "Medium";
                     });
@@ -563,9 +573,10 @@ class CreateMainTaskState extends State<CreateMainTask> {
                   activeColor: const Color.fromARGB(255, 14, 168, 0),
                   value: menuitem.item11,
                   groupValue: _mitem,
-                  onChanged: (menuitem value) {
+                  
+                  onChanged: (menuitem? value) {
                     setState(() {
-                      _mitem = value;
+                      _mitem = value!;
                       taskType = 11;
                       taskTypeString = "Low";
                     });
@@ -604,9 +615,9 @@ class CreateMainTaskState extends State<CreateMainTask> {
                                 ),
                               );
                             }).toList(),
-                            onChanged: (String newValue) {
+                            onChanged: (String? newValue) {
                               setState(() {
-                                dropdownvalue1 = newValue;
+                                dropdownvalue1 = newValue!;
                               });
                             },
                           ),
@@ -638,9 +649,9 @@ class CreateMainTaskState extends State<CreateMainTask> {
                                 ),
                               );
                             }).toList(),
-                            onChanged: (String newValue) {
+                            onChanged: (String? newValue) {
                               setState(() {
-                                dropdownvalue2 = newValue;
+                                dropdownvalue2 = newValue!;
                                 assignTo.add(
                                     dropdownvalue2);
                                 assignToController
@@ -770,9 +781,9 @@ class CreateMainTaskState extends State<CreateMainTask> {
                           ),
                         );
                       }).toList(),
-                      onChanged: (String newValue) {
+                      onChanged: (String? newValue) {
                         setState(() {
-                          dropdownvalue3 = newValue;
+                          dropdownvalue3 = newValue!;
                         });
                       },
                     ),

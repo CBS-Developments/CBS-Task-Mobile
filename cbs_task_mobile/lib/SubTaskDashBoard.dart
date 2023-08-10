@@ -12,32 +12,32 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SubTaskDashBoard extends StatefulWidget {
-  const SubTaskDashBoard({Key key}) : super(key: key);
+  const SubTaskDashBoard({Key? key}) : super(key: key);
 
   @override
   SubTaskDashBoardState createState() => SubTaskDashBoardState();
 }
 
 class SubTaskDashBoardState extends State<SubTaskDashBoard> {
-  String userRole;
-  String userName;
-  String firstName;
-  String lastName;
-  String mainTaskId;
-  String mainTaskTitle;
-  String taskType;
-  String taskTypeName;
-  String taskCreateBy;
-  String company;
-  String sourceFrom;
-  String assignTo;
-  String dueDate;
-  String taskStatusName;
-  String taskStatus;
-  String taskCreateDate;
-  String taskCreatedTimestamp;
-  String mainTaskFinishedBy;
-  String mainTaskFinishedByDate;
+ late String userRole;
+ late String userName;
+ late String firstName;
+ late String lastName;
+ late String mainTaskId;
+ late String mainTaskTitle;
+ late String taskType;
+ late String taskTypeName;
+ late String taskCreateBy;
+ late String company;
+ late String sourceFrom;
+ late String assignTo;
+ late String dueDate;
+ late String taskStatusName;
+ late String taskStatus;
+ late String taskCreateDate;
+ late String taskCreatedTimestamp;
+ late String mainTaskFinishedBy;
+ late String mainTaskFinishedByDate;
 
   List<Task> subTaskList = [];
   List<Task> completeSubTaskList = [];
@@ -342,8 +342,7 @@ class SubTaskDashBoardState extends State<SubTaskDashBoard> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                            const ViewSubTask()),
+                                            builder: (context) => ViewSubTask()),
                                       );
                                     },
                                     child: Align(
@@ -500,7 +499,7 @@ class SubTaskDashBoardState extends State<SubTaskDashBoard> {
 
     const url = "http://dev.connect.cbs.lk/subTaskListByMainTaskId.php";
     http.Response res = await http.post(
-      url,
+      Uri.parse(url),
       body: data,
       headers: {
         "Accept": "application/json",
@@ -754,10 +753,10 @@ class SubTaskDashBoardState extends State<SubTaskDashBoard> {
                                       ),
                                     );
                                   }).toList(),
-                                  onChanged: (String value) {
+                                  onChanged: (String? value) {
                                     setState(() {
                                       taskListController.text = "";
-                                      dropdownvalue = value;
+                                      dropdownvalue = value!;
                                       if (dropdownvalue != "-All-") {
                                         taskListController.text =
                                             dropdownvalue.toString();
@@ -799,10 +798,10 @@ class SubTaskDashBoardState extends State<SubTaskDashBoard> {
                                       ),
                                     );
                                   }).toList(),
-                                  onChanged: (String value) {
+                                  onChanged: (String? value) {
                                     setState(() {
                                       taskListController.text = "";
-                                      dropdownvalue1 = value;
+                                      dropdownvalue1 = value!;
                                       if (dropdownvalue1 != "-All-") {
                                         taskListController.text =
                                             dropdownvalue1.toString();
@@ -844,10 +843,10 @@ class SubTaskDashBoardState extends State<SubTaskDashBoard> {
                                       ),
                                     );
                                   }).toList(),
-                                  onChanged: (String value) {
+                                  onChanged: (String? value) {
                                     setState(() {
                                       taskListController.text = "";
-                                      dropdownvalue2 = value;
+                                      dropdownvalue2 = value!;
                                       if (dropdownvalue2 != "-All-") {
                                         taskListController.text =
                                             dropdownvalue2.toString();
@@ -903,10 +902,10 @@ class SubTaskDashBoardState extends State<SubTaskDashBoard> {
                                       ),
                                     );
                                   }).toList(),
-                                  onChanged: (String value) {
+                                  onChanged: (String? value) {
                                     setState(() {
                                       taskListController.text = "";
-                                      dropdownvalue3 = value;
+                                      dropdownvalue3 = value!;
                                       if (dropdownvalue3 != "-All-") {
                                         taskListController.text =
                                             dropdownvalue3.toString();
