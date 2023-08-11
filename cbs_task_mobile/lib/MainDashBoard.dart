@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:cbs_task/CreateMainTask.dart';
 import 'package:cbs_task/CreateSubTask.dart';
@@ -19,15 +20,32 @@ class MainDashBoard extends StatefulWidget {
   @override
   MainDashBoardState createState() => MainDashBoardState();
 }
-
 class MainDashBoardState extends State<MainDashBoard> {
-  late String userName;
-  late String firstName;
-  late String lastName;
-  late String userRole;
+  late String userName = '';
+  late String userRole = '';
+  late String firstName = '';
+  late String lastName = '';
   List<MainTask> searchResultAsMainTaskList = [];
   List<MainTask> mainTaskList = [];
   TextEditingController taskListController = TextEditingController();
+
+  void retrieverData() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userName = prefs.getString('user_name') ?? '';  // Initialize with a default value
+      userRole = prefs.getString('user_role') ?? '';
+      firstName = (prefs.getString('first_name') ?? '').toUpperCase();
+      lastName = (prefs.getString('last_name') ?? '').toUpperCase();
+
+      // Print the values for debugging
+      print("userName: $userName, userRole: $userRole, firstName: $firstName, lastName: $lastName");
+    });
+  }
+  @override
+  void initState() {
+    super.initState();
+    retrieverData(); // Call the function in initState
+  }
 
   onSearchTextChangedUser(String text) async {
     searchResultAsMainTaskList.clear();
@@ -516,23 +534,6 @@ class MainDashBoardState extends State<MainDashBoard> {
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    retrieverData();
-    getTaskList();
-  }
-
-  void retrieverData() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      userName = (prefs.getString('user_name') ?? '');
-      userRole = (prefs.getString('user_role') ?? '');
-      firstName = (prefs.getString('first_name') ?? '').toUpperCase();
-      lastName = (prefs.getString('last_name') ?? '').toUpperCase();
-    });
-  }
-
   Future<void> showMyDialog(MainTask task, var title, var titleId, var assignTo,
       double fontSize, var timestamp) async {
     int time = int.parse(timestamp);
@@ -735,7 +736,8 @@ class MainDashBoardState extends State<MainDashBoard> {
                 ),
                 color: Colors.green,
                 tooltip: 'Completed Task',
-                onPressed: () async {
+                onPressed: ()  {
+                  print("userName: $userName, userRole: $userRole, firstName: $firstName, lastName: $lastName");
                 },
               ),
 
@@ -774,7 +776,7 @@ class MainDashBoardState extends State<MainDashBoard> {
               ),
             ],
           ),
-          body: Column(
+          body:  Column(
             children: [
               Expanded(
                 flex: 3,
