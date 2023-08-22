@@ -686,8 +686,8 @@ class MainDashBoardState extends State<MainDashBoard> {
     double textFontNormal = (sizeHeight * 0.008) * (sizeWidth * 0.008);
     double textFontLarge = (sizeHeight * 0.020) * (sizeWidth * 0.001);
     double paddingButton = (sizeHeight * 0.004) * (sizeWidth * 0.0008);
-    double padding = (sizeHeight * 0.012) * (sizeWidth * 0.0012);
-    double iconSize = (sizeHeight * 0.008) * (sizeWidth * 0.008);
+    double padding = (sizeHeight * 0.020) * (sizeWidth * 0.0020);
+    double iconSize = (sizeHeight * 0.007) * (sizeWidth * 0.007);
     double textFontNormal2 = (sizeHeight * 0.022) * (sizeWidth * 0.0022);
 
     double paddingCard = (sizeHeight * 0.0005) * (sizeWidth * 0.0004);
@@ -841,7 +841,7 @@ class MainDashBoardState extends State<MainDashBoard> {
                         Expanded(
                           flex: 1,
                           child: Container(
-                            margin: const EdgeInsets.only(left: 0.5, right: 0.25, top: 0.5,bottom: 0.5),
+                             margin: const EdgeInsets.only(left: 0.5, right: 0.25, top: 0.5,bottom: 0.5),
                             color: Colors.white,
                             child: Center(
                               child: DropdownButtonHideUnderline(
@@ -888,7 +888,7 @@ class MainDashBoardState extends State<MainDashBoard> {
                           flex: 1,
                           child: Container(
                             color: Colors.white,
-                            margin: const EdgeInsets.only(left: 0.25, right: 0.25, top: 0.5,bottom: 0.5),
+                             margin: const EdgeInsets.only(left: 0.25, right: 0.25, top: 0.5,bottom: 0.5),
                             child: Center(
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton(
