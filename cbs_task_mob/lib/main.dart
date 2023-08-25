@@ -32,12 +32,5 @@ class LandingPage extends StatelessWidget {
     }
   }
 
-// _decideMainPage() {
-//  // if (prefs.getString('login_state') != null) {
-//  //   return const MainDashBoard();
-//  //  } else {
-//    return const GeolocatorWidget();
-//  // }
-// }
 
 }

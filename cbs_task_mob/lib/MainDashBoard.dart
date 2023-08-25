@@ -359,51 +359,6 @@ class MainDashBoardState extends State<MainDashBoard> {
                   padding: EdgeInsets.all(padding),
                   child: Column(
                     children: [
-                      // Expanded(
-                      //   flex: 1,
-                      //   child: SizedBox(
-                      //     height: MediaQuery.of(context).size.height,
-                      //     width: MediaQuery.of(context).size.width,
-                      //     child: Row(
-                      //       children: [
-                      //         // Expanded(
-                      //         //   flex: 5,
-                      //         //   child: Container(
-                      //         //     height: MediaQuery.of(context).size.height,
-                      //         //     width: MediaQuery.of(context).size.width,
-                      //         //     color: Colors.white,
-                      //         //     child: Align(
-                      //         //       alignment: Alignment.centerLeft,
-                      //         //       child: SelectableText(
-                      //         //         task[index - 1].taskId,
-                      //         //         style: TextStyle(
-                      //         //             fontSize: textFontNormal,
-                      //         //             fontWeight: FontWeight.bold),
-                      //         //       ),
-                      //         //     ),
-                      //         //   ),
-                      //         // ),
-                      //         // Expanded(
-                      //         //   flex: 3,
-                      //         //   child: Container(
-                      //         //     height: MediaQuery.of(context).size.height,
-                      //         //     width: MediaQuery.of(context).size.width,
-                      //         //     color: Colors.white,
-                      //         //     child: Align(
-                      //         //       alignment: Alignment.centerRight,
-                      //         //       child: SelectableText(
-                      //         //         task[index - 1].taskStatusName,
-                      //         //         style: TextStyle(
-                      //         //             fontSize: textFontNormal,
-                      //         //             fontWeight: FontWeight.bold),
-                      //         //       ),
-                      //         //     ),
-                      //         //   ),
-                      //         // ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
                       Expanded(
                         flex: 1,
                         child: Row(
