@@ -75,17 +75,7 @@ class CreateSubTaskState extends State<CreateSubTask> {
 
 
   Future<bool> createTask(BuildContext context, var mainTaskId) async {
-    // if (titleController.text.trim().isEmpty) {
-    //   setState(() {
-    //     titleValidation = true;
-    //     snackBar(context, "Task title can't be empty", Colors.redAccent);
-    //   });
-    //   return false;
-    // } else {
-    //   setState(() {
-    //     titleValidation = false;
-    //   });
-    // }
+
 
     if (subTitleController.text.trim().isEmpty) {
       setState(() {
